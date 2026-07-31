@@ -17,7 +17,7 @@ public class DirectApiController : ControllerBase
     {
         // if you need a delegated access token for downstream APIs
         var accessToken = await HttpContext.GetTokenAsync("access_token");
-      
-        return new List<string> { "some data", "more data", "loads of data" };
+
+        return ["some data", "more data", "loads of data"];
     }
 }

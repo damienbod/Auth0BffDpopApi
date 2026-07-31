@@ -12,7 +12,7 @@ public class DownstreamDataController(ILogger<DownstreamDataController> _logger)
     [EndpointSummary("This is a summary from OpenApi attributes.")]
     [EndpointDescription("This is a description from OpenApi attributes.")]
     [Produces(typeof(DataFromApi))]
-    [HttpGet("GetDownstreamData")]
+    [HttpGet]
     public IActionResult Get()
     {
         _logger.LogDebug("Get downstream API with OpenAPI definitions");

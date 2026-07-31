@@ -44,37 +44,32 @@ builder.Services.AddControllers();
 builder.Services.AddHybridCache();
 builder.Services.AddKeyedHybridCache(ServiceProviderKeys.ProofTokenReplayHybridCache);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-   .AddJwtBearer("Bearer", options =>
-   {
-       options.Audience = "api_scope";
-       options.Authority = "https://localhost:44367";
-       options.TokenValidationParameters = new TokenValidationParameters
-       {
-           ValidateIssuer = true,
-           ValidateAudience = true,
-           ValidateIssuerSigningKey = true,
-           ValidAudiences = ["api_scope"],
-           ValidIssuers = ["https://localhost:44367"],
-       };
-   });
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer("Bearer", options =>
+{
+    options.Authority = "https://dev-damienbod.eu.auth0.com/";
+    options.Audience = "https://auth0-api1";
+});
 
 // layers DPoP onto the "token" scheme above
-builder.Services.ConfigureDPoPTokensForScheme("Bearer", opt =>
-{
-    opt.ProofTokenLifetime = TimeSpan.FromSeconds(10);
+//builder.Services.ConfigureDPoPTokensForScheme("Bearer", opt =>
+//{
+//    opt.ProofTokenLifetime = TimeSpan.FromSeconds(10);
 
-    opt.ProofTokenValidationParameters.ValidAlgorithms =
-    [
-        SecurityAlgorithms.RsaSsaPssSha256,
-            SecurityAlgorithms.RsaSsaPssSha384,
-            SecurityAlgorithms.RsaSsaPssSha512,
+//    opt.ProofTokenValidationParameters.ValidAlgorithms =
+//    [
+//        SecurityAlgorithms.RsaSsaPssSha256,
+//            SecurityAlgorithms.RsaSsaPssSha384,
+//            SecurityAlgorithms.RsaSsaPssSha512,
 
-            SecurityAlgorithms.EcdsaSha256,
-            SecurityAlgorithms.EcdsaSha384,
-            SecurityAlgorithms.EcdsaSha512
-    ];
-});
+//            SecurityAlgorithms.EcdsaSha256,
+//            SecurityAlgorithms.EcdsaSha384,
+//            SecurityAlgorithms.EcdsaSha512
+//    ];
+//});
 
 builder.Services.AddAuthorization();
 
