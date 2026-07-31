@@ -54,11 +54,18 @@ var publicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPat
 var rsaCertificate = X509Certificate2.CreateFromPem(publicPem, privatePem);
 var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
 
+services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = Auth0Constants.AuthenticationScheme; //  OpenIdConnectDefaults.AuthenticationScheme;
+});
+
 builder.Services.AddAuth0WebAppAuthentication(options =>
 {
     options.Domain = "dev-damienbod.eu.auth0.com"; // builder.Configuration["Auth0:Domain"];
     options.ClientId = "0erfhb9bqdefyOZp2x4b8lIP5Ampdf2P"; // builder.Configuration["Auth0:ClientId"];
-    options.Scope = "auth0-user-api-one";
+    options.Scope = "https://auth0-api1";
+
     options.ClientAssertionSecurityKey = rsaCertificateKey;
     options.ClientAssertionSecurityKeyAlgorithm = "RS256";
 });

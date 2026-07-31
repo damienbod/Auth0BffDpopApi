@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Auth0.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ public class DirectApiController : ControllerBase
     public async Task<IEnumerable<string>> GetAsync()
     {
         // if you need a delegated access token for downstream APIs
-        var accessToken = await HttpContext.GetTokenAsync("access_token");
+        var accessToken = await HttpContext.GetTokenAsync(Auth0Constants.AuthenticationScheme, "access_token");
 
         return new List<string> { "some data", "more data", "loads of data" };
     }
