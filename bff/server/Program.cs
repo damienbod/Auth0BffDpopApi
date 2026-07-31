@@ -64,10 +64,14 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 {
     options.Domain = "dev-damienbod.eu.auth0.com"; // builder.Configuration["Auth0:Domain"];
     options.ClientId = "0erfhb9bqdefyOZp2x4b8lIP5Ampdf2P"; // builder.Configuration["Auth0:ClientId"];
-    options.Scope = "https://auth0-api1";
+    options.Scope = "openid profile email";
 
     options.ClientAssertionSecurityKey = rsaCertificateKey;
     options.ClientAssertionSecurityKeyAlgorithm = "RS256";
+
+}).WithAccessToken(options =>
+{
+    options.Audience = "https://auth0-api1";
 });
 
 //services.AddAuthentication(options =>
