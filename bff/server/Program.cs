@@ -68,7 +68,8 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 
 }).WithAccessToken(options =>
 {
-    options.Audience = "https://auth0-api1";
+    options.Audience = "https://auth0-api1"; 
+    options.UseRefreshTokens = true;
 });
 
 services.AddControllersWithViews(options =>
