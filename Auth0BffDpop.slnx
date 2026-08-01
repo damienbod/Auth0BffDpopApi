@@ -2,5 +2,8 @@
   <Folder Name="/bff/">
     <Project Path="bff/server/BffAuth0.Server.csproj" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="Api/WebApi.csproj" />
 </Solution>

@@ -1,5 +1,28 @@
 # Auth0 BFF DPoP API
 
+## Debugging
+
+Start the Angular project from the ui folder
+
+```
+ng serve --ssl
+```
+
+## Start the ASP.NET Core project from the server folder
+
+```
+dotnet run
+```
+
+Or just open Visual Studio and run the solution.
+
+## Credits and used libraries
+- NetEscapades.AspNetCore.SecurityHeaders
+- Yarp.ReverseProxy
+- ASP.NET Core
+- Angular
+- Auth0 NuGet packages
+
 ## UI Angular setup using Angular CLI
 
 ```
