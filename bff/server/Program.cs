@@ -2,13 +2,10 @@
 using BffAuth0.Server;
 using BffAuth0.Server.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +34,7 @@ services.AddSecurityHeaderPolicies()
 services.AddAntiforgery(options =>
 {
     options.HeaderName = "X-XSRF-TOKEN";
-    options.Cookie.Name = "__Host_Http-X-XSRF-TOKEN";
+    options.Cookie.Name = "__Host-Http-X-XSRF-TOKEN";
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
@@ -81,7 +78,7 @@ builder.Services.AddAuth0WebAppAuthentication(options =>
 //})
 //.AddCookie(options =>
 //{
-//    options.Cookie.Name = "__Host_Http-auth0";
+//    options.Cookie.Name = "__Host-Http-auth0";
 //    options.Cookie.SameSite = SameSiteMode.Lax;
 //})
 //.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
