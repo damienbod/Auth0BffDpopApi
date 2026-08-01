@@ -44,6 +44,23 @@ builder.Services.AddControllers();
 builder.Services.AddHybridCache();
 builder.Services.AddKeyedHybridCache(ServiceProviderKeys.ProofTokenReplayHybridCache);
 
+// -- DPoP setup 1: Auth0 client libs --
+// Using Auth0 client libs:
+// Auth0.AspNetCore.Authentication.Api Nuget package
+// https://auth0.com/docs/quickstart/backend/aspnet-core-webapi
+//builder.Services.AddAuth0ApiAuthentication(options =>
+//{
+//    options.Domain = builder.Configuration["Auth0:Domain"];
+//    options.JwtBearerOptions = new JwtBearerOptions
+//    {
+//        Audience = builder.Configuration["Auth0:Audience"]
+//    };
+//}).WithDPoP(dpopOptions =>
+//{
+//    dpopOptions.Mode = DPoPModes.Allowed;
+//});
+
+// -- DPoP setup 2: all OIDC clients --
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -54,6 +71,9 @@ builder.Services.AddAuthentication(options =>
     options.Audience = "https://auth0-api1";
 });
 
+// NOTE: DPoP is disabled here because of missing Auth0 enterprise license.
+// -- DPoP setup: all OIDC clients --
+// Duende.AspNetCore.Authentication.JwtBearer NuGet package
 // layers DPoP onto the "token" scheme above
 //builder.Services.ConfigureDPoPTokensForScheme("Bearer", opt =>
 //{
