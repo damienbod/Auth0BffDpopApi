@@ -42,9 +42,11 @@ services.AddAntiforgery(options =>
 services.AddHttpClient();
 services.AddOptions();
 
+// Dev only!
 var privatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-private.pem"));
 var publicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-public.pem"));
 
+// Deployments, Aspire setup
 //var webDpopClientPrivatePem = builder.Configuration.GetValue<string>("WebDpopClientPrivatePem");
 //var webDpopClientPublicPem = builder.Configuration.GetValue<string>("WebDpopClientPublicPem");
 
