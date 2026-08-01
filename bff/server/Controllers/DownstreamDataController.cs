@@ -22,6 +22,12 @@ public class DownstreamDataController : ControllerBase
     [HttpGet]
     public async Task<string> GetAsync()
     {
+        // This API can be completely removed and implemented using YARP => it is only used to proxy requests to the downstream API
+        // Token mangement is handled by the BFF and the access token is passed to the downstream API using the Authorization header
+
+        // If using token management, use a library which stores and refreshes the access tokens, examples:
+        // Duende.AccessTokenManagement.OpenIdConnect NuGet package
+
         // if you need a delegated access token for downstream APIs
         var accessToken = await HttpContext.GetTokenAsync("access_token");
 
