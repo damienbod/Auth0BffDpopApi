@@ -6,4 +6,5 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="Api/WebApi.csproj" />
+  <Project Path="GenerateCertiticate/GenerateCertiticate.csproj" />
 </Solution>

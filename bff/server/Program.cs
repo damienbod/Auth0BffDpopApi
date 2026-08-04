@@ -99,16 +99,23 @@ builder.Services.AddAuthentication(options =>
     options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.Require;
 });
 
+// Dev only!
+var webDpopClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-private.pem"));
+var webDpopClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-public.pem"));
+
+var ecdsaCertificate = X509Certificate2.CreateFromPem(webDpopClientPublicPem, webDpopClientPrivatePem);
+var ecdsaCertificateKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
+
 // add automatic token management
 builder.Services.AddOpenIdConnectAccessTokenManagement(options =>
 {
-    var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(rsaCertificateKey);
-    jwk.Alg = "PS256";
-    options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
-
-    //var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(ecdsaCertificateKey);
-    //jwk.Alg = "ES384";
+    //var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(rsaCertificateKey);
+    //jwk.Alg = "RS256";
     //options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
+
+    var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(ecdsaCertificateKey);
+    jwk.Alg = "ES256";
+    options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
 });
 
 builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
