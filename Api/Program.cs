@@ -1,6 +1,6 @@
-using Duende.AspNetCore.Authentication.JwtBearer.DPoP;
-using Microsoft.AspNetCore.Authentication;
+using Auth0.AspNetCore.Authentication.Api;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
@@ -40,35 +40,33 @@ builder.Services.AddSecurityHeaderPolicies()
 
 builder.Services.AddControllers();
 
-builder.Services.AddHybridCache();
-builder.Services.AddKeyedHybridCache(ServiceProviderKeys.ProofTokenReplayHybridCache);
+//builder.Services.AddHybridCache();
+//builder.Services.AddKeyedHybridCache(ServiceProviderKeys.ProofTokenReplayHybridCache);
 
 // -- DPoP setup 1: Auth0 client libs --
 // Using Auth0 client libs:
 // Auth0.AspNetCore.Authentication.Api Nuget package
 // https://auth0.com/docs/quickstart/backend/aspnet-core-webapi
-//builder.Services.AddAuth0ApiAuthentication(options =>
-//{
-//    options.Domain = builder.Configuration["Auth0:Domain"];
-//    options.JwtBearerOptions = new JwtBearerOptions
-//    {
-//        Audience = builder.Configuration["Auth0:Audience"]
-//    };
-//}).WithDPoP(dpopOptions =>
-//{
-//    dpopOptions.Mode = DPoPModes.Allowed;
-//});
+builder.Services.AddAuth0ApiAuthentication(options =>
+{
+    options.Domain = builder.Configuration["Auth0:Domain"]!;
+    options.Audience = builder.Configuration["Auth0:Audience"]!;
+
+}).WithDPoP(dpopOptions =>
+{
+    dpopOptions.Mode = Auth0.AspNetCore.Authentication.Api.DPoP.DPoPModes.Allowed;
+});
 
 // -- DPoP setup 2: all OIDC clients --
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer("Bearer", options =>
-{
-    options.Authority = "https://dev-damienbod.eu.auth0.com/";
-    options.Audience = "https://auth0-api1";
-});
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer("Bearer", options =>
+//{
+//    options.Authority = builder.Configuration["Auth0:Authority"];
+//    options.Audience = builder.Configuration["Auth0:Audience"];
+//});
 
 // NOTE: DPoP is disabled here because of missing Auth0 enterprise license.
 // -- DPoP setup: all OIDC clients --
