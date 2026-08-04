@@ -46,7 +46,7 @@ builder.Services.AddControllers();
 // Using Auth0 client libs:
 // Auth0.AspNetCore.Authentication.Api Nuget package
 // https://auth0.com/docs/quickstart/backend/aspnet-core-webapi
-builder.Services.AddAuth0ApiAuthentication(options =>
+builder.Services.AddAuth0ApiAuthentication("BearerDPoP", options =>
 {
     options.Domain = builder.Configuration["Auth0:Domain"]!;
     options.Audience = builder.Configuration["Auth0:Audience"]!;
