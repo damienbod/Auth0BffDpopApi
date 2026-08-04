@@ -38,7 +38,7 @@ public static class AssertionService
                 new Claim(JwtClaimTypes.IssuedAt, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
             },
             now,
-            now.AddMinutes(1),
+            now.AddMinutes(5),
             signingCredentials
         );
 
