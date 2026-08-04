@@ -88,6 +88,8 @@ builder.Services.AddAuthentication(options =>
     options.Scope.Add("profile");
     options.Scope.Add("email");
  
+    options.CallbackPath = new PathString(configuration["Auth0:CallbackPath"]);
+
     options.ClaimsIssuer = "Auth0";
     options.SaveTokens = true;
     options.UsePkce = true;

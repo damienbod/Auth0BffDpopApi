@@ -21,7 +21,8 @@ public static class AssertionService
 
         var rsaCertificate = X509Certificate2.CreateFromPem(publicPem, privatePem);
         var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
-        var signingCredentials = new SigningCredentials(new X509SecurityKey(rsaCertificate), "RS256");
+        var signingCredentials = new SigningCredentials(
+                new X509SecurityKey(rsaCertificate, "GtUysKJ8XFsEnasIfWK3S9mIxCdlQzPKiP5piIPBUc8"), "RS256");
 
         var token = new JwtSecurityToken(
             clientId,
@@ -41,6 +42,9 @@ public static class AssertionService
 
         var tokenHandler = new JwtSecurityTokenHandler();
         tokenHandler.OutboundClaimTypeMap.Clear();
+
+        Console.WriteLine(rsaCertificate.Thumbprint);
+        Console.WriteLine(signingCredentials.Kid);
 
         return tokenHandler.WriteToken(token);
     }
