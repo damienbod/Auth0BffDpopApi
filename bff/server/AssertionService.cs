@@ -1,7 +1,10 @@
 using Duende.IdentityModel;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 namespace BffAuth0.Server;
@@ -21,8 +24,9 @@ public static class AssertionService
 
         var rsaCertificate = X509Certificate2.CreateFromPem(publicPem, privatePem);
         var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
-        var signingCredentials = new SigningCredentials(
-                new X509SecurityKey(rsaCertificate, "GtUysKJ8XFsEnasIfWK3S9mIxCdlQzPKiP5piIPBUc8"), "RS256");
+
+        string kid = Base64UrlEncoder.Encode(rsaCertificateKey.ComputeJwkThumbprint());
+        var signingCredentials = new SigningCredentials(new X509SecurityKey(rsaCertificate, kid), "RS256");
 
         var token = new JwtSecurityToken(
             clientId,
@@ -42,9 +46,6 @@ public static class AssertionService
 
         var tokenHandler = new JwtSecurityTokenHandler();
         tokenHandler.OutboundClaimTypeMap.Clear();
-
-        Console.WriteLine(rsaCertificate.Thumbprint);
-        Console.WriteLine(signingCredentials.Kid);
 
         return tokenHandler.WriteToken(token);
     }
