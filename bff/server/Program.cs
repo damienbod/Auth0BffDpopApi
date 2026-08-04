@@ -65,8 +65,8 @@ var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-    options.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = "auth0"; // OpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultSignOutScheme = "auth0"; // OpenIdConnectDefaults.AuthenticationScheme;
 })
 .AddCookie(options =>
 {
@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(options =>
     // can be strict if same-site
     //options.Cookie.SameSite = SameSiteMode.Strict;
 })
-.AddOpenIdConnect(options =>
+.AddOpenIdConnect("auth0", options =>
 {
     options.Events = OidcEventHandlers.OidcEvents(builder.Configuration);
 
