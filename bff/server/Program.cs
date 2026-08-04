@@ -62,8 +62,9 @@ services.AddAuthentication(options =>
 builder.Services.AddAuth0WebAppAuthentication(options =>
 {
     options.Domain = builder.Configuration["Auth0:Domain"]!;
-    options.ClientId = builder.Configuration["Auth0:ClientId"]!;
-    options.Scope = "openid profile email";
+    options.ClientId = builder.Configuration["Auth0:AppClientId"]!;
+    options.Scope = "openid profile email offline_access";
+    options.CallbackPath = builder.Configuration["Auth0:CallbackPath"]!;
 
     options.ClientAssertionSecurityKey = rsaCertificateKey;
     options.ClientAssertionSecurityKeyAlgorithm = "RS256";
