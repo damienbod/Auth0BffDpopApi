@@ -1,5 +1,17 @@
 # Auth0 BFF DPoP API
 
+## Features
+- Using OpenID Connect with client assertions (private key JWT)
+- Using OAuth DPoP (Demonstrating Proof of Possession) for enhanced security
+- Using OAuth PAR (Pushed Authorization Requests) for enhanced security
+- Confidential client with client assertion and private key JWT
+- Using YARP Reverse Proxy to forward requests to the API
+
+- TODO Implement production YARP for proxied requests to the API with DPoP and PAR
+- TODO Debug if User info endpoint is working with private key JWT, DPoP and PAR
+- TODO Support mixed APIs
+
+
 ## Debugging
 
 Start the Angular project from the ui folder
