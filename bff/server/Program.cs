@@ -1,8 +1,6 @@
 ﻿using Duende.AccessTokenManagement.DPoP;
 using Duende.AccessTokenManagement.OpenIdConnect;
-using Duende.IdentityModel;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Logging;
@@ -88,7 +86,7 @@ builder.Services.AddAuthentication(options =>
     options.Scope.Add("profile");
     options.Scope.Add("email");
  
-    options.CallbackPath = new PathString(configuration["Auth0:CallbackPath"]);
+    //options.CallbackPath = new PathString(configuration["Auth0:CallbackPath"]);
 
     options.ClaimsIssuer = "Auth0";
     options.SaveTokens = true;
