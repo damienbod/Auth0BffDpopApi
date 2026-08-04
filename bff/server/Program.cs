@@ -2,6 +2,7 @@
 using BffAuth0.Server;
 using BffAuth0.Server.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
@@ -62,9 +63,20 @@ services.AddAuthentication(options =>
 builder.Services.AddAuth0WebAppAuthentication(options =>
 {
     options.Domain = builder.Configuration["Auth0:Domain"]!;
-    options.ClientId = builder.Configuration["Auth0:AppClientId"]!;
+    options.ClientId = builder.Configuration["Auth0:ClientId"]!;
     options.Scope = "openid profile email offline_access";
     options.CallbackPath = builder.Configuration["Auth0:CallbackPath"]!;
+
+    options.UsePushedAuthorization = true;
+    options.OpenIdConnectEvents = new OpenIdConnectEvents
+    {
+        OnPushAuthorization = context =>
+        {
+            context.ProtocolMessage.Parameters.Add("client_assertion", AssertionService.CreateClientToken(configuration));
+            context.ProtocolMessage.Parameters.Add("client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
+            return Task.CompletedTask;
+        }
+    };  
 
     options.ClientAssertionSecurityKey = rsaCertificateKey;
     options.ClientAssertionSecurityKeyAlgorithm = "RS256";
