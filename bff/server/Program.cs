@@ -68,7 +68,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie(options =>
 {
-    options.Cookie.Name = "__Host-Http-auth0-web";
+    options.Cookie.Name = "__Host-Http-Auth0-Web";
     options.Cookie.SameSite = SameSiteMode.Lax;
     // can be strict if same-site
     //options.Cookie.SameSite = SameSiteMode.Strict;
