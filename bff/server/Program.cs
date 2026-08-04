@@ -79,7 +79,7 @@ builder.Services.AddAuthentication(options =>
 
     options.Authority = $"https://{configuration["Auth0:Domain"]}";
     options.ClientId = configuration["Auth0:ClientId"];
-    //options.ClientSecret = configuration["Auth0:ClientSecret"];
+    //options.ClientSecret = "configuration["Auth0:ClientSecret"];
     options.ResponseType = OpenIdConnectResponseType.Code;
     options.Scope.Clear();
     options.Scope.Add("openid");
@@ -91,7 +91,7 @@ builder.Services.AddAuthentication(options =>
     options.ClaimsIssuer = "Auth0";
     options.SaveTokens = true;
     options.UsePkce = true;
-    options.GetClaimsFromUserInfoEndpoint = true;
+    options.GetClaimsFromUserInfoEndpoint = false;
     options.TokenValidationParameters.NameClaimType = "name";
 
     options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.Require;
