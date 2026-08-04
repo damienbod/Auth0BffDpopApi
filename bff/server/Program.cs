@@ -107,10 +107,7 @@ var ecdsaCertificateKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateK
 // add automatic token management
 builder.Services.AddOpenIdConnectAccessTokenManagement(options =>
 {
-    //var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(rsaCertificateKey);
-    //jwk.Alg = "RS256";
-    //options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
-
+    // Only ES256 is supported by Auth0 DPoP
     var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(ecdsaCertificateKey);
     jwk.Alg = "ES256";
     options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));

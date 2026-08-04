@@ -33,10 +33,32 @@ public class DownstreamDataController : ControllerBase
         // if you need a delegated access token for downstream APIs
         var accessToken = await HttpContext.GetTokenAsync("access_token");
 
-        return await GetApiDataUsingDelegatedToken(accessToken);
+        return await GetApiDataUsingDelegatedDPoPToken();
+
+        //return await GetApiDataUsingDelegatedAccessToken(accessToken);
     }
 
-    private async Task<string> GetApiDataUsingDelegatedToken(string? accessToken)
+    private async Task<string> GetApiDataUsingDelegatedDPoPToken()
+    {
+        var client = _clientFactory.CreateClient("dpop-api-client");
+     
+        var response = await client.GetAsync("api/DownstreamData");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var data = await response.Content.ReadAsStringAsync();
+
+            if (data != null)
+            {
+                return data;
+            }
+        }
+
+        var errorMessage = await response.Content.ReadAsStringAsync();
+        throw new ApplicationException($"Status code: {response.StatusCode}, Error: {response.ReasonPhrase}, message: {errorMessage}");
+    }
+
+    private async Task<string> GetApiDataUsingDelegatedAccessToken(string? accessToken)
     {
         if(string.IsNullOrEmpty(accessToken))
         {
@@ -46,7 +68,6 @@ public class DownstreamDataController : ControllerBase
         var client = _clientFactory.CreateClient();
 
         client.BaseAddress = new Uri("https://localhost:7288");
-
 
         client.DefaultRequestHeaders.Authorization
             = new AuthenticationHeaderValue("Bearer", accessToken);
