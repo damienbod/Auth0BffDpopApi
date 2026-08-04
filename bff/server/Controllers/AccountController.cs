@@ -21,7 +21,7 @@ public class AccountController : ControllerBase
         }
 
        
-        return Challenge(properties, "auth0");
+        return Challenge(properties, "Auth0");
     }
 
     // [ValidateAntiForgeryToken] // not needed explicitly due the the Auto global definition.
@@ -33,7 +33,7 @@ public class AccountController : ControllerBase
         return SignOut(
             new AuthenticationProperties { RedirectUri = "/" },
             CookieAuthenticationDefaults.AuthenticationScheme, 
-            "auth0");
+            "Auth0");
     }
 
     /// <summary>
