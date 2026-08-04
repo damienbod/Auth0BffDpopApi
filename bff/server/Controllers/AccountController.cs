@@ -1,5 +1,4 @@
-﻿using Auth0.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,7 @@ public class AccountController : ControllerBase
         }
 
        
-        return Challenge(properties, Auth0Constants.AuthenticationScheme);
+        return Challenge(properties, "auth0");
     }
 
     // [ValidateAntiForgeryToken] // not needed explicitly due the the Auto global definition.
@@ -34,7 +33,7 @@ public class AccountController : ControllerBase
         return SignOut(
             new AuthenticationProperties { RedirectUri = "/" },
             CookieAuthenticationDefaults.AuthenticationScheme, 
-            Auth0Constants.AuthenticationScheme);
+            "auth0");
     }
 
     /// <summary>

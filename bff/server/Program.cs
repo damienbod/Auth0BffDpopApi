@@ -1,13 +1,21 @@
-﻿using Auth0.AspNetCore.Authentication;
-using BffAuth0.Server;
-using BffAuth0.Server.Services;
+﻿using Duende.AccessTokenManagement.DPoP;
+using Duende.AccessTokenManagement.OpenIdConnect;
+using Duende.IdentityModel;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
+
+using BffAuth0.Server;
+using BffAuth0.Server.Services;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,38 +62,101 @@ var publicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPat
 var rsaCertificate = X509Certificate2.CreateFromPem(publicPem, privatePem);
 var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
 
-services.AddAuthentication(options =>
+builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = Auth0Constants.AuthenticationScheme; //  OpenIdConnectDefaults.AuthenticationScheme;
-});
-
-builder.Services.AddAuth0WebAppAuthentication(options =>
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    options.DefaultSignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
 {
-    options.Domain = builder.Configuration["Auth0:Domain"]!;
-    options.ClientId = builder.Configuration["Auth0:ClientId"]!;
-    options.Scope = "openid profile email offline_access";
-    options.CallbackPath = builder.Configuration["Auth0:CallbackPath"]!;
+    options.Cookie.Name = "__Host-Http-auth0-web";
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    // can be strict if same-site
+    //options.Cookie.SameSite = SameSiteMode.Strict;
+})
+.AddOpenIdConnect(options =>
+{
+    options.Events = OidcEventHandlers.OidcEvents(builder.Configuration);
 
-    options.UsePushedAuthorization = true;
-    options.OpenIdConnectEvents = new OpenIdConnectEvents
+    options.ClientId = builder.Configuration["Auth0:ClientId"];
+    options.Authority = builder.Configuration["Auth0:Domain"];
+    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.ResponseType = OpenIdConnectResponseType.Code;
+
+    // client_assertion used, set in oidc events
+    //options.ClientSecret = "test";
+
+    options.SaveTokens = true;
+    options.GetClaimsFromUserInfoEndpoint = true;
+    options.MapInboundClaims = false;
+
+    options.ClaimActions.MapUniqueJsonKey(JwtClaimTypes.Email, JwtClaimTypes.Email);
+
+    options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.Require;
+
+    options.Scope.Add("profile");
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        OnPushAuthorization = context =>
-        {
-            context.ProtocolMessage.Parameters.Add("client_assertion", AssertionService.CreateClientToken(configuration));
-            context.ProtocolMessage.Parameters.Add("client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
-            return Task.CompletedTask;
-        }
-    };  
-
-    options.ClientAssertionSecurityKey = rsaCertificateKey;
-    options.ClientAssertionSecurityKeyAlgorithm = "RS256";
-
-}).WithAccessToken(options =>
-{
-    options.Audience = builder.Configuration["Auth0:Audience"]!;
-    options.UseRefreshTokens = true;
+        NameClaimType = "name"
+    };
 });
+
+// add automatic token management
+builder.Services.AddOpenIdConnectAccessTokenManagement(options =>
+{
+    // create and configure a DPoP JWK
+    //var rsaKey = new RsaSecurityKey(RSA.Create(2048));
+    //var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(rsaKey);
+    //jwk.Alg = "PS256";
+    //options.DPoPJsonWebKey = JsonSerializer.Serialize(jwk);
+
+    var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(rsaCertificateKey);
+    jwk.Alg = "PS256";
+    options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
+
+    //var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(ecdsaCertificateKey);
+    //jwk.Alg = "ES384";
+    //options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
+});
+
+builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
+{
+    client.BaseAddress = new("https+http://api-service");
+});
+
+//services.AddAuthentication(options =>
+//{
+//    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = Auth0Constants.AuthenticationScheme; //  OpenIdConnectDefaults.AuthenticationScheme;
+//});
+
+//builder.Services.AddAuth0WebAppAuthentication(options =>
+//{
+//    options.Domain = builder.Configuration["Auth0:Domain"]!;
+//    options.ClientId = builder.Configuration["Auth0:ClientId"]!;
+//    options.Scope = "openid profile email offline_access";
+//    options.CallbackPath = builder.Configuration["Auth0:CallbackPath"]!;
+
+//    options.UsePushedAuthorization = true;
+//    options.OpenIdConnectEvents = new OpenIdConnectEvents
+//    {
+//        OnPushAuthorization = context =>
+//        {
+//            context.ProtocolMessage.Parameters.Add("client_assertion", AssertionService.CreateClientToken(configuration));
+//            context.ProtocolMessage.Parameters.Add("client_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
+//            return Task.CompletedTask;
+//        }
+//    };  
+
+//    options.ClientAssertionSecurityKey = rsaCertificateKey;
+//    options.ClientAssertionSecurityKeyAlgorithm = "RS256";
+
+//}).WithAccessToken(options =>
+//{
+//    options.Audience = builder.Configuration["Auth0:Audience"]!;
+//    options.UseRefreshTokens = true;
+//});
 
 services.AddControllersWithViews(options =>
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
