@@ -79,38 +79,27 @@ builder.Services.AddAuthentication(options =>
 {
     options.Events = OidcEventHandlers.OidcEvents(builder.Configuration);
 
-    options.ClientId = builder.Configuration["Auth0:ClientId"];
-    options.Authority = builder.Configuration["Auth0:Domain"];
-    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.Authority = $"https://{configuration["Auth0:Domain"]}";
+    options.ClientId = configuration["Auth0:ClientId"];
+    //options.ClientSecret = configuration["Auth0:ClientSecret"];
     options.ResponseType = OpenIdConnectResponseType.Code;
-
-    // client_assertion used, set in oidc events
-    //options.ClientSecret = "test";
-
+    options.Scope.Clear();
+    options.Scope.Add("openid");
+    options.Scope.Add("profile");
+    options.Scope.Add("email");
+ 
+    options.ClaimsIssuer = "Auth0";
     options.SaveTokens = true;
+    options.UsePkce = true;
     options.GetClaimsFromUserInfoEndpoint = true;
-    options.MapInboundClaims = false;
-
-    options.ClaimActions.MapUniqueJsonKey(JwtClaimTypes.Email, JwtClaimTypes.Email);
+    options.TokenValidationParameters.NameClaimType = "name";
 
     options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.Require;
-
-    options.Scope.Add("profile");
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        NameClaimType = "name"
-    };
 });
 
 // add automatic token management
 builder.Services.AddOpenIdConnectAccessTokenManagement(options =>
 {
-    // create and configure a DPoP JWK
-    //var rsaKey = new RsaSecurityKey(RSA.Create(2048));
-    //var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(rsaKey);
-    //jwk.Alg = "PS256";
-    //options.DPoPJsonWebKey = JsonSerializer.Serialize(jwk);
-
     var jwk = JsonWebKeyConverter.ConvertFromSecurityKey(rsaCertificateKey);
     jwk.Alg = "PS256";
     options.DPoPJsonWebKey = DPoPProofKey.ParseOrDefault(JsonSerializer.Serialize(jwk));
@@ -122,7 +111,7 @@ builder.Services.AddOpenIdConnectAccessTokenManagement(options =>
 
 builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
 {
-    client.BaseAddress = new("https+http://api-service");
+    client.BaseAddress = new("https://localhost:7288");
 });
 
 //services.AddAuthentication(options =>

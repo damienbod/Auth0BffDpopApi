@@ -1,4 +1,5 @@
 using Duende.IdentityModel;
+using Duende.IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace BffAuth0.Server;
@@ -53,6 +54,8 @@ public static class OidcEventHandlers
     {
         context.ProtocolMessage.Parameters.Add("client_assertion", AssertionService.CreateClientToken(configuration));
         context.ProtocolMessage.Parameters.Add("client_assertion_type", OidcConstants.ClientAssertionTypes.JwtBearer);
+
+        context.ProtocolMessage.Parameters.Add("audience", configuration["Auth0:Audience"]);
 
         context.HandleClientAuthentication();
 
