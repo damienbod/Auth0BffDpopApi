@@ -1,5 +1,4 @@
 using Duende.IdentityModel;
-using Duende.IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace BffAuth0.Server;
@@ -14,20 +13,10 @@ public static class OidcEventHandlers
 
             // use OAuth PAR
             OnPushAuthorization = async context => await OnPushAuthorizationHandler(context, configuration),
-
-            OnAuthenticationFailed = async context =>
-            {
-                var data = context.Response.StatusCode;
-            },
-            OnRemoteFailure =  async context =>
-            {
-                var data = context.Response.StatusCode;
-            },
-            
-
+ 
             // standard OIDC flow handlers using JAR and client assertions - not using OAuth PAR
             //OnRedirectToIdentityProvider = async context => await OnRedirectToIdentityProviderHandler(context, configuration),
-            };
+        };
     }
 
     private static async Task OnAuthorizationCodeReceivedHandler(AuthorizationCodeReceivedContext context, IConfiguration configuration)
