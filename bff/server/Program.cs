@@ -91,6 +91,8 @@ builder.Services.AddAuthentication(options =>
     options.ClaimsIssuer = "Auth0";
     options.SaveTokens = true;
     options.UsePkce = true;
+
+    // broken with Auth0, DPoP, PAR and client assertions
     options.GetClaimsFromUserInfoEndpoint = false;
     options.TokenValidationParameters.NameClaimType = "name";
 

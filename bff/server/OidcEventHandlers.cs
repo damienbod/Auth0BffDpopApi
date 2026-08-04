@@ -1,5 +1,8 @@
+using Duende.AccessTokenManagement;
+using Duende.AccessTokenManagement.DPoP;
 using Duende.IdentityModel;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using System.Net.Http.Headers;
 
 namespace BffAuth0.Server;
 
@@ -13,10 +16,32 @@ public static class OidcEventHandlers
 
             // use OAuth PAR
             OnPushAuthorization = async context => await OnPushAuthorizationHandler(context, configuration),
- 
+
+            OnRedirectToIdentityProviderForSignOut = async context => await OnRedirectToIdentityProviderForSignOutHandler(context, configuration),
+
             // standard OIDC flow handlers using JAR and client assertions - not using OAuth PAR
             //OnRedirectToIdentityProvider = async context => await OnRedirectToIdentityProviderHandler(context, configuration),
         };
+    }
+
+    private static async Task OnRedirectToIdentityProviderForSignOutHandler(RedirectContext context, IConfiguration configuration)
+    {
+        var logoutUri = $"https://{configuration["Auth0:Domain"]}/v2/logout?client_id={configuration["Auth0:ClientId"]}";
+
+        var postLogoutUri = context.Properties.RedirectUri;
+        if (!string.IsNullOrEmpty(postLogoutUri))
+        {
+            if (postLogoutUri.StartsWith("/"))
+            {
+                // transform to absolute
+                var request = context.Request;
+                postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
+            }
+            logoutUri += $"&returnTo={Uri.EscapeDataString(postLogoutUri)}";
+        }
+
+        context.Response.Redirect(logoutUri);
+        context.HandleResponse();
     }
 
     private static async Task OnAuthorizationCodeReceivedHandler(AuthorizationCodeReceivedContext context, IConfiguration configuration)
