@@ -1,4 +1,4 @@
-# Auth0 BFF DPoP API
+# Auth0 BFF Web application (Angular & ASP.NET Core) using downstream API protected with OAuth DPoP
 
 ![Authn](https://github.com/damienbod/Auth0BffDpopApi/blob/main/images/system.context.drawio.png)
 
