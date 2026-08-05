@@ -1,5 +1,7 @@
 # Auth0 BFF Web application (Angular & ASP.NET Core) using downstream API protected with OAuth DPoP
 
+[![.NET and npm build](https://github.com/damienbod/Auth0BffDpopApi/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/Auth0BffDpopApi/actions/workflows/dotnet.yml)
+
 ![Authn](https://github.com/damienbod/Auth0BffDpopApi/blob/main/images/system.context.drawio.png)
 
 ## Features
