@@ -1,5 +1,7 @@
 # Auth0 BFF DPoP API
 
+![Authn](https://github.com/damienbod/Auth0BffDpopApi/blob/main/images/system.context.drawio.png)
+
 ## Features
 - Using OpenID Connect with client assertions (private key JWT)
 - Using OAuth DPoP (Demonstrating Proof of Possession) for enhanced security
