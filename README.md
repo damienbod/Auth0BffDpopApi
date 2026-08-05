@@ -36,6 +36,7 @@ Or just open Visual Studio and run the solution.
 - ASP.NET Core
 - Angular
 - Auth0 NuGet packages
+- Duende FOSS packages
 
 ## UI Angular setup using Angular CLI
 
