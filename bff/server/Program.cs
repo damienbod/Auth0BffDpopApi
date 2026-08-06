@@ -164,14 +164,20 @@ services.AddRazorPages().AddMvcOptions(options =>
     //options.Filters.Add(new AuthorizeFilter(policy));
 });
 
-builder.Services.AddReverseProxy()
+if (builder.Environment.IsDevelopment())
+{
+    // Development
+    builder.Services.AddReverseProxy()
    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
-
-// Move to deployment supported by Aspire and Containers
-//builder.Services.AddReverseProxy()
-//    .LoadFromMemory(YarpConfigurations.GetDevelopmentRoutes(),
-//        YarpConfigurations.GetDevelopmentClusters(builder.Configuration["DownstreamApiUrl"]!));
-
+}
+else
+{
+    // Production
+    // Support for Aspire and Containers
+    builder.Services.AddReverseProxy()
+    .LoadFromMemory(YarpConfigurations.GetProductionRoutes(),
+        YarpConfigurations.GetProductionClusters(builder.Configuration["DownstreamApiUrl"]!));
+}
 var app = builder.Build();
 
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -209,6 +215,11 @@ if (app.Environment.IsDevelopment())
     {
         app.MapReverseProxy();
     }
+}
+else
+{
+    // Proxy with production code configuration
+    app.MapReverseProxy();
 }
 
 app.MapFallbackToPage("/_Host");
