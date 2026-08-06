@@ -117,7 +117,7 @@ builder.Services.AddOpenIdConnectAccessTokenManagement(options =>
 
 builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
 {
-    client.BaseAddress = new("https://localhost:7288");
+    client.BaseAddress = new(builder.Configuration["DownstreamApiUrl"]!);
 });
 
 //services.AddAuthentication(options =>
@@ -166,6 +166,11 @@ services.AddRazorPages().AddMvcOptions(options =>
 
 builder.Services.AddReverseProxy()
    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
+// Move to deployment supported by Aspire and Containers
+//builder.Services.AddReverseProxy()
+//    .LoadFromMemory(YarpConfigurations.GetDevelopmentRoutes(),
+//        YarpConfigurations.GetDevelopmentClusters(builder.Configuration["DownstreamApiUrl"]!));
 
 var app = builder.Build();
 
