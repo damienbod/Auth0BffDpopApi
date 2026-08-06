@@ -79,5 +79,20 @@
         }}
       </div>
     </div>
+
+    <div class="card shadow">
+      <div class="card-body">
+        <h5 class="card-title">Downstream YARP data using API</h5>
+        <pre class="card-text"
+          >{{ getDownstreamYarpDataUsingApiCalls$ | async | json }}
+        </pre>
+        @if (userProfileClaims$ | async; as userProfileClaims) { @if
+        (userProfileClaims?.isAuthenticated) {
+        <button type="button" class="btn btn-primary" (click)="getDownstreamYarpDataUsingApi()">
+          Get Downstream data using API
+        </button>
+        }}
+      </div>
+    </div>
   </div>
 </div>
