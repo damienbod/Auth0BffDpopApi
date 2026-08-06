@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   private readonly httpClient = inject(HttpClient);
   dataFromAzureProtectedApi$?: Observable<string[]>;
   getDownstreamDataUsingApiCalls$?: Observable<string[]>;
+   getDownstreamYarpDataUsingApiCalls$?: Observable<string[]>;
   userProfileClaims$?: Observable<UserProfile>;
 
   ngOnInit() {
@@ -51,6 +52,12 @@ export class HomeComponent implements OnInit {
   getDownstreamDataUsingApi() {
     this.getDownstreamDataUsingApiCalls$ = this.httpClient.get<string[]>(
       `${this.getCurrentHost()}/api/DownstreamData`
+    );
+  }
+
+  getDownstreamYarpDataUsingApi() {
+    this.getDownstreamYarpDataUsingApiCalls$ = this.httpClient.get<string[]>(
+      `${this.getCurrentHost()}/api/DownstreamYarpData`
     );
   }
 
