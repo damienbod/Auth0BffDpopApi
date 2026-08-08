@@ -11,7 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="13.3.3" />
+    <PackageReference Include="Aspire.Hosting.JavaScript" Version="13.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api\WebApi.csproj" />
+    <ProjectReference Include="..\bff\server\BffAuth0.Server.csproj" />
   </ItemGroup>
 
 </Project>
