@@ -2,6 +2,9 @@ using Microsoft.Extensions.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+builder.AddProject<Projects.WebApi>("webapi")
+    .WithExternalHttpEndpoints();
+
 if (builder.Environment.IsDevelopment())
 {
     var angularFrontend = builder.AddJavaScriptApp("angular", "../bff/ui", "start")
