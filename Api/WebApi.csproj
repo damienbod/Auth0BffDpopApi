@@ -20,4 +20,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AppsAspire.ServiceDefaults\AppsAspire.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

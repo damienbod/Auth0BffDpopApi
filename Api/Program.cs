@@ -9,6 +9,8 @@ using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Open up security restrictions to allow this to work
 // Not recommended in production
 var deploySwaggerUI = builder.Configuration.GetValue<bool>("DeploySwaggerUI");

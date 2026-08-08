@@ -7,5 +7,7 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="Api/WebApi.csproj" />
+  <Project Path="AppAspireHost/AppAspireHost.csproj" Id="9bea562b-2a2e-4a8b-b2f1-379474f693f0" />
+  <Project Path="AppsAspire.ServiceDefaults/AppsAspire.ServiceDefaults.csproj" Id="3e84ba28-913b-441e-b05a-8fee755d579a" />
   <Project Path="GenerateCertiticate/GenerateCertiticate.csproj" />
 </Solution>
