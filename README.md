@@ -21,6 +21,12 @@
 Start the Angular project from the ui folder
 
 ```
+npm start
+```
+
+or 
+
+```
 ng serve --ssl
 ```
 
