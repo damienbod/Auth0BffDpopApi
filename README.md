@@ -15,7 +15,6 @@
 - TODO Debug if User info endpoint is working with private key JWT, DPoP and PAR
 - TODO Support mixed APIs
 
-
 ## Debugging
 
 Start the Angular project from the ui folder
