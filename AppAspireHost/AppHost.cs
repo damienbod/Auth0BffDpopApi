@@ -16,6 +16,12 @@ var webOidcClientPublicPem = builder.AddParameter("WebOidcClientPublicPem");
 var webDpopClientPrivatePem = builder.AddParameter("WebDpopClientPrivatePem", secret: true);
 var webDpopClientPublicPem = builder.AddParameter("WebDpopClientPublicPem");
 
+var webAuth0Authority = builder.AddParameter("WebAuth0Authority");
+var webAuth0Audience = builder.AddParameter("WebAuth0Audience");
+var webAuth0Domain = builder.AddParameter("WebAuth0Domain");
+var webAuth0ClientId = builder.AddParameter("WebAuth0ClientId");
+var webAuth0CallbackPath = builder.AddParameter("WebAuth0CallbackPath");
+
 // Parameters for the web API
 var apiAuth0Authority = builder.AddParameter("ApiAuth0Authority");
 var apiAuth0Audience = builder.AddParameter("ApiAuth0Audience");
@@ -35,10 +41,20 @@ if (builder.Environment.IsDevelopment())
         .WithHttpsEndpoint(port: 3000, 4201, env: "BASE_URL");
 
     webApplication =builder.AddProject<Projects.BffAuth0_Server>(WEB_APPLICATION)
+        .WithExternalHttpEndpoints()
         .WithReference(angularFrontend)
-        .WithReference(webApi)
         .WaitFor(angularFrontend)
-        .WithExternalHttpEndpoints();
+        .WithReference(webApi)
+        .WaitFor(webApi)
+        .WithEnvironment("WebAuth0Authority", webAuth0Authority)
+        .WithEnvironment("WebAuth0Audience", webAuth0Audience)
+        .WithEnvironment("WebAuth0Domain", webAuth0Domain)
+        .WithEnvironment("WebAuth0ClientId", webAuth0ClientId)
+        .WithEnvironment("WebAuth0CallbackPath", webAuth0CallbackPath)
+        .WithEnvironment("WebOidcClientPrivatePem", webOidcClientPrivatePem)
+        .WithEnvironment("WebOidcClientPublicPem", webOidcClientPublicPem)
+        .WithEnvironment("WebDpopClientPrivatePem", webDpopClientPrivatePem)
+        .WithEnvironment("WebDpopClientPublicPem", webDpopClientPublicPem);
 }
 else
 {
@@ -48,8 +64,11 @@ else
         .WithExternalHttpEndpoints()
         .WithReference(webApi)
         .WaitFor(webApi)
-        //.WithEnvironment("WebOidcAuthority", webOidcAuthority)
-        //.WithEnvironment("WebOidcClientId", webOidcClientId)
+        .WithEnvironment("WebAuth0Authority", webAuth0Authority)
+        .WithEnvironment("WebAuth0Audience", webAuth0Audience)
+        .WithEnvironment("WebAuth0Domain", webAuth0Domain)
+        .WithEnvironment("WebAuth0ClientId", webAuth0ClientId)
+        .WithEnvironment("WebAuth0CallbackPath", webAuth0CallbackPath)
         .WithEnvironment("WebOidcClientPrivatePem", webOidcClientPrivatePem)
         .WithEnvironment("WebOidcClientPublicPem", webOidcClientPublicPem)
         .WithEnvironment("WebDpopClientPrivatePem", webDpopClientPrivatePem)
