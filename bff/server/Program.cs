@@ -37,7 +37,7 @@ services.AddSecurityHeaderPolicies()
 
         return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
             builder.Environment.IsDevelopment(),
-            configuration["Auth0:Domain"]);
+            configuration.GetValue<string>("Auth0Domain"));
     });
 
 services.AddAntiforgery(options =>
@@ -79,16 +79,17 @@ builder.Services.AddAuthentication(options =>
 {
     options.Events = OidcEventHandlers.OidcEvents(builder.Configuration);
 
-    options.Authority = $"https://{configuration["Auth0:Domain"]}";
-    options.ClientId = configuration["Auth0:ClientId"];
-    //options.ClientSecret = "configuration["Auth0:ClientSecret"];
+    options.Authority = $"https://{configuration.GetValue<string>("Auth0Domain")}";
+    options.ClientId = configuration.GetValue<string>("Auth0ClientId");
+    // Using client assertions, no secret used.
+    //options.ClientSecret = configuration.GetValue<string>("Auth0ClientSecret");
     options.ResponseType = OpenIdConnectResponseType.Code;
     options.Scope.Clear();
     options.Scope.Add("openid");
     options.Scope.Add("profile");
     options.Scope.Add("email");
  
-    //options.CallbackPath = new PathString(configuration["Auth0:CallbackPath"]);
+    //options.CallbackPath = new PathString(configuration.GetValue<string>("Auth0CallbackPath"));
 
     options.ClaimsIssuer = "Auth0";
     options.SaveTokens = true;
@@ -135,10 +136,10 @@ builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient
 
 //builder.Services.AddAuth0WebAppAuthentication(options =>
 //{
-//    options.Domain = builder.Configuration["Auth0:Domain"]!;
-//    options.ClientId = builder.Configuration["Auth0:ClientId"]!;
+//    options.Domain = builder.Configuration.GetValue<string>("Auth0Domain")!;
+//    options.ClientId = builder.Configuration.GetValue<string>("Auth0ClientId")!;
 //    options.Scope = "openid profile email offline_access";
-//    options.CallbackPath = builder.Configuration["Auth0:CallbackPath"]!;
+//    options.CallbackPath = builder.Configuration.GetValue<string>("Auth0CallbackPath")!;
 
 //    options.UsePushedAuthorization = true;
 //    options.OpenIdConnectEvents = new OpenIdConnectEvents
@@ -156,7 +157,7 @@ builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient
 
 //}).WithAccessToken(options =>
 //{
-//    options.Audience = builder.Configuration["Auth0:Audience"]!;
+//    options.Audience = builder.Configuration.GetValue<string>("Auth0Audience")!;
 //    options.UseRefreshTokens = true;
 //});
 

@@ -11,15 +11,18 @@ public static class AssertionService
     public static string CreateClientToken(IConfiguration configuration)
     {
         var now = DateTime.UtcNow;
-        var clientId = configuration.GetValue<string>("Auth0:ClientId");
-        var authority = configuration.GetValue<string>("Auth0:Authority");
+        var clientId = configuration.GetValue<string>("Auth0ClientId");
+        var authority = configuration.GetValue<string>("Auth0Authority");
 
-        //var privatePem = configuration.GetValue<string>("WebOidcClientPrivatePem");
-        //var publicPem = configuration.GetValue<string>("WebOidcClientPublicPem");
-        var privatePem = File.ReadAllText(Path.Combine("", "rsa256-oidc-private.pem"));
-        var publicPem = File.ReadAllText(Path.Combine("", "rsa256-oidc-public.pem"));
+        // Dev only!
+        var oidcClientPrivatePem = File.ReadAllText(Path.Combine("", "rsa256-oidc-private.pem"));
+        var oidcClientPublicPem = File.ReadAllText(Path.Combine("", "rsa256-oidc-public.pem"));
 
-        var rsaCertificate = X509Certificate2.CreateFromPem(publicPem, privatePem);
+        // Deployments, Aspire setup
+        //var oidcClientPrivatePem = builder.Configuration.GetValue<string>("OidcClientPrivatePem");
+        //var oidcClientPublicPem = builder.Configuration.GetValue<string>("OidcClientPublicPem");
+
+        var rsaCertificate = X509Certificate2.CreateFromPem(oidcClientPublicPem, oidcClientPrivatePem);
         var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
 
         string kid = Base64UrlEncoder.Encode(rsaCertificateKey.ComputeJwkThumbprint());
