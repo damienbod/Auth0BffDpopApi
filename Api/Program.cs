@@ -1,10 +1,8 @@
-//using Duende.AspNetCore.Authentication.JwtBearer.DPoP;
 using Auth0.AspNetCore.Authentication.Api;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Logging;
-//using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using WebApi;
@@ -49,49 +47,12 @@ builder.Services.AddControllers();
 // https://auth0.com/docs/quickstart/backend/aspnet-core-webapi
 builder.Services.AddAuth0ApiAuthentication(Consts.DPOP_BEARER_SCHEME, options =>
 {
-    // Auth0 Nuget package bug: the Auth0:Domain configuration is required to be set in the options,
-    // otherwise it will throw an exception. This is a bug in the Auth0 Nuget package.
     options.Domain = builder.Configuration.GetValue<string>("Auth0:Domain")!;
     options.Audience = builder.Configuration.GetValue<string>("Auth0:Audience")!;
 }).WithDPoP(dpopOptions =>
 {
     dpopOptions.Mode = Auth0.AspNetCore.Authentication.Api.DPoP.DPoPModes.Allowed;
 });
-
-// Duende JWT licensed client
-//builder.Services.AddHybridCache();
-//builder.Services.AddKeyedHybridCache(ServiceProviderKeys.ProofTokenReplayHybridCache);
-
-// -- DPoP setup 2: all OIDC clients --
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = Consts.DPOP_BEARER_SCHEME;
-//    options.DefaultChallengeScheme = Consts.DPOP_BEARER_SCHEME;
-//}).AddJwtBearer(Consts.DPOP_BEARER_SCHEME, options =>
-//{
-//    options.Authority = builder.Configuration.GetValue<string>("Auth0Authority");
-//    options.Audience = builder.Configuration.GetValue<string>("Auth0Audience");
-//});
-
-// NOTE: DPoP is disabled here because of missing Auth0 enterprise license.
-// -- DPoP setup: all OIDC clients --
-// Duende.AspNetCore.Authentication.JwtBearer NuGet package
-// layers DPoP onto the "token" scheme above
-//builder.Services.ConfigureDPoPTokensForScheme(Consts.DPOP_BEARER_SCHEME, opt =>
-//{
-//    opt.ProofTokenLifetime = TimeSpan.FromSeconds(10);
-
-//    opt.ProofTokenValidationParameters.ValidAlgorithms =
-//    [
-//        SecurityAlgorithms.RsaSsaPssSha256,
-//            SecurityAlgorithms.RsaSsaPssSha384,
-//            SecurityAlgorithms.RsaSsaPssSha512,
-
-//            SecurityAlgorithms.EcdsaSha256,
-//            SecurityAlgorithms.EcdsaSha384,
-//            SecurityAlgorithms.EcdsaSha512
-//    ];
-//});
 
 builder.Services.AddAuthorization();
 
