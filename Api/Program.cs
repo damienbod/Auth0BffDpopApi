@@ -49,7 +49,7 @@ builder.Services.AddKeyedHybridCache(ServiceProviderKeys.ProofTokenReplayHybridC
 // Using Auth0 client libs:
 // Auth0.AspNetCore.Authentication.Api Nuget package
 // https://auth0.com/docs/quickstart/backend/aspnet-core-webapi
-//builder.Services.AddAuth0ApiAuthentication("BearerDPoP", options =>
+//builder.Services.AddAuth0ApiAuthentication(DPOP_BEARER_SCHEME, options =>
 //{
 //    options.Domain = builder.Configuration.GetValue<string>("Auth0Domain")!;
 //    options.Audience = builder.Configuration.GetValue<string>("Auth0Audience")!;
@@ -62,9 +62,9 @@ builder.Services.AddKeyedHybridCache(ServiceProviderKeys.ProofTokenReplayHybridC
 // -- DPoP setup 2: all OIDC clients --
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = "BearerDPoP";
-    options.DefaultChallengeScheme = "BearerDPoP";
-}).AddJwtBearer("BearerDPoP", options =>
+    options.DefaultAuthenticateScheme = Consts.DPOP_BEARER_SCHEME;
+    options.DefaultChallengeScheme = Consts.DPOP_BEARER_SCHEME;
+}).AddJwtBearer(Consts.DPOP_BEARER_SCHEME, options =>
 {
     options.Authority = builder.Configuration.GetValue<string>("Auth0Authority");
     options.Audience = builder.Configuration.GetValue<string>("Auth0Audience");
@@ -74,7 +74,7 @@ builder.Services.AddAuthentication(options =>
 // -- DPoP setup: all OIDC clients --
 // Duende.AspNetCore.Authentication.JwtBearer NuGet package
 // layers DPoP onto the "token" scheme above
-builder.Services.ConfigureDPoPTokensForScheme("BearerDPoP", opt =>
+builder.Services.ConfigureDPoPTokensForScheme(Consts.DPOP_BEARER_SCHEME, opt =>
 {
     opt.ProofTokenLifetime = TimeSpan.FromSeconds(10);
 
