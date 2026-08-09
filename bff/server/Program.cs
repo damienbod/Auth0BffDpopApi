@@ -52,14 +52,14 @@ services.AddHttpClient();
 services.AddOptions();
 
 // Dev only!
-var webOidcClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-private.pem"));
-var webOidcClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-public.pem"));
+var oidcClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-private.pem"));
+var oidcClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-public.pem"));
 
 // Deployments, Aspire setup
-//var webDpopClientPrivatePem = builder.Configuration.GetValue<string>("WebOidcClientPrivatePem");
-//var webDpopClientPublicPem = builder.Configuration.GetValue<string>("WebOidcClientPublicPem");
+//var oidcClientPrivatePem = builder.Configuration.GetValue<string>("OidcClientPrivatePem");
+//var oidcClientPublicPem = builder.Configuration.GetValue<string>("OidcClientPublicPem");
 
-var rsaCertificate = X509Certificate2.CreateFromPem(webOidcClientPublicPem, webOidcClientPrivatePem);
+var rsaCertificate = X509Certificate2.CreateFromPem(oidcClientPublicPem, oidcClientPrivatePem);
 var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
 
 builder.Services.AddAuthentication(options =>
@@ -102,14 +102,14 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Dev only!
-var webDpopClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-private.pem"));
-var webDpopClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-public.pem"));
+var dpopClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-private.pem"));
+var dpopClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-public.pem"));
 
 // Deployments, Aspire setup
-//var webDpopClientPrivatePem = builder.Configuration.GetValue<string>("WebDpopClientPrivatePem");
-//var webDpopClientPublicPem = builder.Configuration.GetValue<string>("WebDpopClientPublicPem");
+//var dpopClientPrivatePem = builder.Configuration.GetValue<string>("DpopClientPrivatePem");
+//var dpopClientPublicPem = builder.Configuration.GetValue<string>("DpopClientPublicPem");
 
-var ecdsaCertificate = X509Certificate2.CreateFromPem(webDpopClientPublicPem, webDpopClientPrivatePem);
+var ecdsaCertificate = X509Certificate2.CreateFromPem(dpopClientPublicPem, dpopClientPrivatePem);
 var ecdsaCertificateKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
 
 // add automatic token management

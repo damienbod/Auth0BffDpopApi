@@ -30,10 +30,10 @@ var apiDeploySwaggerUI = builder.AddParameter("ApiDeploySwaggerUI");
 
 webApi = builder.AddProject<Projects.WebApi>(API_SERVICE)
     .WithExternalHttpEndpoints()
-    .WithEnvironment("ApiAuth0Authority", apiAuth0Authority)
-    .WithEnvironment("ApiAuth0Audience", apiAuth0Audience)
-    .WithEnvironment("ApiAuth0Domain", apiAuth0Domain)
-    .WithEnvironment("ApiDeploySwaggerUI", apiDeploySwaggerUI);
+    .WithEnvironment("Auth0Authority", apiAuth0Authority)
+    .WithEnvironment("Auth0Audience", apiAuth0Audience)
+    .WithEnvironment("Auth0Domain", apiAuth0Domain)
+    .WithEnvironment("DeploySwaggerUI", apiDeploySwaggerUI);
 
 if (builder.Environment.IsDevelopment())
 {
@@ -46,15 +46,15 @@ if (builder.Environment.IsDevelopment())
         .WaitFor(angularFrontend)
         .WithReference(webApi)
         .WaitFor(webApi)
-        .WithEnvironment("WebAuth0Authority", webAuth0Authority)
-        .WithEnvironment("WebAuth0Audience", webAuth0Audience)
-        .WithEnvironment("WebAuth0Domain", webAuth0Domain)
-        .WithEnvironment("WebAuth0ClientId", webAuth0ClientId)
-        .WithEnvironment("WebAuth0CallbackPath", webAuth0CallbackPath)
-        .WithEnvironment("WebOidcClientPrivatePem", webOidcClientPrivatePem)
-        .WithEnvironment("WebOidcClientPublicPem", webOidcClientPublicPem)
-        .WithEnvironment("WebDpopClientPrivatePem", webDpopClientPrivatePem)
-        .WithEnvironment("WebDpopClientPublicPem", webDpopClientPublicPem);
+        .WithEnvironment("Auth0Authority", webAuth0Authority)
+        .WithEnvironment("Auth0Audience", webAuth0Audience)
+        .WithEnvironment("Auth0Domain", webAuth0Domain)
+        .WithEnvironment("Auth0ClientId", webAuth0ClientId)
+        .WithEnvironment("Auth0CallbackPath", webAuth0CallbackPath)
+        .WithEnvironment("OidcClientPrivatePem", webOidcClientPrivatePem)
+        .WithEnvironment("OidcClientPublicPem", webOidcClientPublicPem)
+        .WithEnvironment("DpopClientPrivatePem", webDpopClientPrivatePem)
+        .WithEnvironment("DpopClientPublicPem", webDpopClientPublicPem);
 }
 else
 {
