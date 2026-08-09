@@ -119,7 +119,8 @@ builder.Services.AddOpenIdConnectAccessTokenManagement(options =>
 
 builder.Services.AddUserAccessTokenHttpClient("dpop-api-client", configureClient: client =>
 {
-    client.BaseAddress = new(builder.Configuration["DownstreamApiUrl"]!);
+    // See App Host for the api-service definition. This is the name of the service in the AppAspireHost project.
+    client.BaseAddress = new("https+http://api-service");
 });
 
 //services.AddAuthentication(options =>
