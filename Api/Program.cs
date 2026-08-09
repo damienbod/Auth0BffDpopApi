@@ -50,8 +50,8 @@ builder.Services.AddControllers();
 // https://auth0.com/docs/quickstart/backend/aspnet-core-webapi
 builder.Services.AddAuth0ApiAuthentication("BearerDPoP", options =>
 {
-    options.Domain = builder.Configuration["Auth0:Domain"]!;
-    options.Audience = builder.Configuration["Auth0:Audience"]!;
+    options.Domain = builder.Configuration.GetValue<string>("Auth0Domain")!;
+    options.Audience = builder.Configuration.GetValue<string>("Auth0Audience")!;
 
 }).WithDPoP(dpopOptions =>
 {
@@ -65,8 +65,8 @@ builder.Services.AddAuth0ApiAuthentication("BearerDPoP", options =>
 //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 //}).AddJwtBearer("Bearer", options =>
 //{
-//    options.Authority = builder.Configuration["Auth0:Authority"];
-//    options.Audience = builder.Configuration["Auth0:Audience"];
+//    options.Authority = builder.Configuration.GetValue<string>("Auth0Authority");
+//    options.Audience = builder.Configuration.GetValue<string>("Auth0Audience");
 //});
 
 // NOTE: DPoP is disabled here because of missing Auth0 enterprise license.
