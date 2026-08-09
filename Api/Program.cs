@@ -47,8 +47,11 @@ builder.Services.AddControllers();
 // https://auth0.com/docs/quickstart/backend/aspnet-core-webapi
 builder.Services.AddAuth0ApiAuthentication(Consts.DPOP_BEARER_SCHEME, options =>
 {
+    // Auth0 Nuget package bug: the Auth0:Domain configuration is required to be set in the options,
+    // otherwise it will throw an exception. This is a bug in the Auth0 Nuget package.
     options.Domain = builder.Configuration.GetValue<string>("Auth0:Domain")!;
     options.Audience = builder.Configuration.GetValue<string>("Auth0:Audience")!;
+
 }).WithDPoP(dpopOptions =>
 {
     dpopOptions.Mode = Auth0.AspNetCore.Authentication.Api.DPoP.DPoPModes.Allowed;
