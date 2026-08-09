@@ -64,7 +64,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = "BearerDPoP";
     options.DefaultChallengeScheme = "BearerDPoP";
-}).AddJwtBearer("Bearer", options =>
+}).AddJwtBearer("BearerDPoP", options =>
 {
     options.Authority = builder.Configuration.GetValue<string>("Auth0Authority");
     options.Audience = builder.Configuration.GetValue<string>("Auth0Audience");
