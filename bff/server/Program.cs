@@ -52,14 +52,14 @@ services.AddHttpClient();
 services.AddOptions();
 
 // Dev only!
-var privatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-private.pem"));
-var publicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-public.pem"));
+var webOidcClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-private.pem"));
+var webOidcClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-public.pem"));
 
 // Deployments, Aspire setup
-//var webDpopClientPrivatePem = builder.Configuration.GetValue<string>("WebDpopClientPrivatePem");
-//var webDpopClientPublicPem = builder.Configuration.GetValue<string>("WebDpopClientPublicPem");
+//var webDpopClientPrivatePem = builder.Configuration.GetValue<string>("WebOidcClientPrivatePem");
+//var webDpopClientPublicPem = builder.Configuration.GetValue<string>("WebOidcClientPublicPem");
 
-var rsaCertificate = X509Certificate2.CreateFromPem(publicPem, privatePem);
+var rsaCertificate = X509Certificate2.CreateFromPem(webOidcClientPublicPem, webOidcClientPrivatePem);
 var rsaCertificateKey = new RsaSecurityKey(rsaCertificate.GetRSAPrivateKey());
 
 builder.Services.AddAuthentication(options =>
@@ -104,6 +104,10 @@ builder.Services.AddAuthentication(options =>
 // Dev only!
 var webDpopClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-private.pem"));
 var webDpopClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-public.pem"));
+
+// Deployments, Aspire setup
+//var webDpopClientPrivatePem = builder.Configuration.GetValue<string>("WebDpopClientPrivatePem");
+//var webDpopClientPublicPem = builder.Configuration.GetValue<string>("WebDpopClientPublicPem");
 
 var ecdsaCertificate = X509Certificate2.CreateFromPem(webDpopClientPublicPem, webDpopClientPrivatePem);
 var ecdsaCertificateKey = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());

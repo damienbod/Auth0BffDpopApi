@@ -13,7 +13,7 @@ builder.AddServiceDefaults();
 
 // Open up security restrictions to allow this to work
 // Not recommended in production
-var deploySwaggerUI = builder.Configuration.GetValue<bool>("DeploySwaggerUI");
+var deploySwaggerUI = builder.Configuration.GetValue<bool>("ApiDeploySwaggerUI");
 var isDev = builder.Environment.IsDevelopment();
 
 builder.Services.AddSecurityHeaderPolicies()
