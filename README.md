@@ -2,7 +2,13 @@
 
 [![.NET and npm build](https://github.com/damienbod/Auth0BffDpopApi/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/Auth0BffDpopApi/actions/workflows/dotnet.yml)
 
+## Setup
+
 ![Authn](https://github.com/damienbod/Auth0BffDpopApi/blob/main/images/system.context.drawio.png)
+
+## Blogs
+
+[Implement BFF using Auth0, Angular and ASP.NET Core](https://damienbod.com/2026/08/10/implement-bff-using-auth0-angular-and-asp-net-core/)
 
 ## Features
 - Using OpenID Connect with client assertions (private key JWT)
