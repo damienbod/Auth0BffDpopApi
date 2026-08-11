@@ -11,8 +11,8 @@ public static class AssertionService
     public static string CreateClientToken(IConfiguration configuration)
     {
         var now = DateTime.UtcNow;
-        var clientId = configuration.GetValue<string>("Auth0ClientId");
-        var authority = configuration.GetValue<string>("Auth0Authority");
+        var clientId = configuration.GetValue<string>("Auth0:ClientId");
+        var authority = configuration.GetValue<string>("Auth0:Authority");
 
         // Dev only!
         var oidcClientPrivatePem = File.ReadAllText(Path.Combine("", "rsa256-oidc-private.pem"));
