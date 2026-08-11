@@ -21,6 +21,14 @@
 - TODO Debug if User info endpoint is working with private key JWT, DPoP and PAR
 - TODO Support mixed APIs
 
+## Podman
+
+https://podman-desktop.io/docs/troubleshooting/troubleshooting-podman
+
+```
+podman machine start
+```
+
 ## Debugging
 
 Start the Angular project from the ui folder
