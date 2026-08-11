@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
 
-[Authorize(AuthenticationSchemes = "BearerDPoP")]
+[Authorize(AuthenticationSchemes = Consts.DPOP_BEARER_SCHEME)]
 [ApiController]
 [Route("api/[controller]")]
 public class DownstreamDataController(ILogger<DownstreamDataController> _logger) : ControllerBase

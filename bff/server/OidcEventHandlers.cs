@@ -26,7 +26,7 @@ public static class OidcEventHandlers
 
     private static async Task OnRedirectToIdentityProviderForSignOutHandler(RedirectContext context, IConfiguration configuration)
     {
-        var logoutUri = $"https://{configuration["Auth0:Domain"]}/v2/logout?client_id={configuration["Auth0:ClientId"]}";
+        var logoutUri = $"https://{configuration.GetValue<string>("Auth0:Domain")}/v2/logout?client_id={configuration.GetValue<string>("Auth0:ClientId")}";
 
         var postLogoutUri = context.Properties.RedirectUri;
         if (!string.IsNullOrEmpty(postLogoutUri))
@@ -79,7 +79,7 @@ public static class OidcEventHandlers
         context.ProtocolMessage.Parameters.Add("client_assertion", AssertionService.CreateClientToken(configuration));
         context.ProtocolMessage.Parameters.Add("client_assertion_type", OidcConstants.ClientAssertionTypes.JwtBearer);
 
-        context.ProtocolMessage.Parameters.Add("audience", configuration["Auth0:Audience"]);
+        context.ProtocolMessage.Parameters.Add("audience", configuration.GetValue<string>("Auth0:Audience"));
 
         context.HandleClientAuthentication();
 
