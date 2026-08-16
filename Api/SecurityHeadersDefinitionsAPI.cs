@@ -1,6 +1,6 @@
 ﻿namespace WebApi;
 
-public static class SecurityHeadersDefinitionsAPI
+public static class SecurityHeadersDefinitionsApi
 {
     private static HeaderPolicyCollection? policy;
 

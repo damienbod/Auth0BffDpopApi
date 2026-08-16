@@ -30,12 +30,12 @@ builder.Services.AddSecurityHeaderPolicies()
             }
 
             // Strict security headers
-            return SecurityHeadersDefinitionsAPI.GetHeaderPolicyCollection(isDev);
+            return SecurityHeadersDefinitionsApi.GetHeaderPolicyCollection(isDev);
         }
         // Strict security headers for production
         else
         {
-            return SecurityHeadersDefinitionsAPI.GetHeaderPolicyCollection(isDev);
+            return SecurityHeadersDefinitionsApi.GetHeaderPolicyCollection(isDev);
         }
     });
 
