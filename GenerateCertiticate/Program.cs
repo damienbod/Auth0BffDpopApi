@@ -17,8 +17,8 @@ class Program
            .AddCertificateManager()
            .BuildServiceProvider();
 
-        _cc = sp.GetService<CreateCertificates>()!;
-        _iec = sp.GetService<ImportExportCertificate>()!;
+        _cc = sp.GetService<CreateCertificates>();
+        _iec = sp.GetService<ImportExportCertificate>();
 
         var rsaCert = CreateRsaCertificate("localhost", 10);
         var ecdsaCert = CreateECDsaCertificate("localhost", 10);
