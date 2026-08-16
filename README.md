@@ -10,6 +10,12 @@
 
 ![Authn](https://github.com/damienbod/Auth0BffDpopApi/blob/main/images/system.context.drawio.png)
 
+## Certificates setup
+- Generate the certificates using the GenerateCertiticate project
+- Copy the generated certificates to the BFF server folder
+- Upload the rsa public key to the Auth0 dashboard (Settings -> Advanced Settings -> Certificates)
+- NOTE: use user secrets to load the certificate in the BFF server project, do not push in repo.
+
 ## Blogs
 
 [Implement BFF using Auth0, Angular and ASP.NET Core](https://damienbod.com/2026/08/10/implement-bff-using-auth0-angular-and-asp-net-core/)

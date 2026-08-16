@@ -428,3 +428,12 @@ FodyWeavers.xsd
 *.msm
 *.msp
 /images/.$**
+/bff/server/ecdsa256-private.pem
+/bff/server/ecdsa256-public.pem
+/bff/server/rsa256-private.pem
+/bff/server/rsa256-public.pem
+/GenerateCertiticate/ecdsa256-private.pem
+/GenerateCertiticate/ecdsa256-public.jwk
+/GenerateCertiticate/ecdsa256-public.pem
+/GenerateCertiticate/rsa256-private.pem
+/GenerateCertiticate/rsa256-public.pem
