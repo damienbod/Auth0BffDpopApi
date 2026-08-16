@@ -1,5 +1,9 @@
 # Auth0 BFF Web application (Angular & ASP.NET Core) using downstream API protected with OAuth DPoP
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=damienbod_Auth0BffDpopApi&metric=bugs)](https://sonarcloud.io/summary/new_code?id=damienbod_Auth0BffDpopApi)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=damienbod_Auth0BffDpopApi&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=damienbod_Auth0BffDpopApi)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=damienbod_Auth0BffDpopApi&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=damienbod_Auth0BffDpopApi)
+
 [![.NET and npm build](https://github.com/damienbod/Auth0BffDpopApi/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/Auth0BffDpopApi/actions/workflows/dotnet.yml)
 
 ## Setup

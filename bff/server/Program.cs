@@ -186,6 +186,7 @@ else
     .LoadFromMemory(YarpConfigurations.GetProductionRoutes(),
         YarpConfigurations.GetProductionClusters(builder.Configuration["DownstreamApiUrl"]!));
 }
+
 var app = builder.Build();
 
 JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
