@@ -31,7 +31,7 @@ public static class SecurityHeadersDefinitionsSwagger
             builder.AddFormAction().Self();
             builder.AddFontSrc().Self();
             builder.AddStyleSrc().Self().UnsafeInline();
-            builder.AddScriptSrc().Self().UnsafeInline(); //.WithNonce();
+            builder.AddScriptSrc().Self().UnsafeInline();
             builder.AddBaseUri().Self();
             builder.AddFrameAncestors().None();
         });
