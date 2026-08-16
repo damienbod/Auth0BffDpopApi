@@ -52,8 +52,8 @@ services.AddHttpClient();
 services.AddOptions();
 
 // Dev only!
-var oidcClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-private.pem"));
-var oidcClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-oidc-public.pem"));
+var oidcClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-private.pem"));
+var oidcClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "rsa256-public.pem"));
 
 // Deployments, Aspire setup
 //var oidcClientPrivatePem = builder.Configuration.GetValue<string>("OidcClientPrivatePem");
@@ -103,8 +103,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Dev only!
-var dpopClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-private.pem"));
-var dpopClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-dpop-public.pem"));
+var dpopClientPrivatePem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-private.pem"));
+var dpopClientPublicPem = File.ReadAllText(Path.Combine(builder.Environment.ContentRootPath, "ecdsa256-public.pem"));
 
 // Deployments, Aspire setup
 //var dpopClientPrivatePem = builder.Configuration.GetValue<string>("DpopClientPrivatePem");
