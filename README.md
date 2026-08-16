@@ -13,7 +13,7 @@
 ## Certificates setup
 - Generate the certificates using the GenerateCertiticate project
 - Copy the generated certificates to the BFF server folder
-- Upload the public key to the Auth0 dashboard (Settings -> Advanced Settings -> Certificates)
+- Upload the rsa public key to the Auth0 dashboard (Settings -> Advanced Settings -> Certificates)
 - NOTE: use user secrets to load the certificate in the BFF server project, do not push in repo.
 
 ## Blogs
