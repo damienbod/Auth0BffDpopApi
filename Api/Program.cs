@@ -49,8 +49,8 @@ builder.Services.AddAuth0ApiAuthentication(Consts.DPOP_BEARER_SCHEME, options =>
 {
     // Auth0 Nuget package bug: the Auth0:Domain configuration is required to be set in the options,
     // otherwise it will throw an exception. This is a bug in the Auth0 Nuget package.
-    options.Domain = builder.Configuration.GetValue<string>("Auth0:Domain")!;
-    options.Audience = builder.Configuration.GetValue<string>("Auth0:Audience")!;
+    options.Domain = builder.Configuration.GetValue<string>("Auth0:Domain");
+    options.Audience = builder.Configuration.GetValue<string>("Auth0:Audience");
 
 }).WithDPoP(dpopOptions =>
 {
