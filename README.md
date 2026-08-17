@@ -19,6 +19,8 @@
 ## Blogs
 
 [Implement BFF using Auth0, Angular and ASP.NET Core](https://damienbod.com/2026/08/10/implement-bff-using-auth0-angular-and-asp-net-core/)
+[Use Aspire to implement and deploy the BFF security architecture](https://damienbod.com/2026/08/17/use-aspire-to-implement-and-deploy-the-bff-security-architecture/)
+
 
 ## Features
 - Using OpenID Connect with client assertions (private key JWT)
