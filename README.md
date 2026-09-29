@@ -21,7 +21,6 @@
 [Implement BFF using Auth0, Angular and ASP.NET Core](https://damienbod.com/2026/08/10/implement-bff-using-auth0-angular-and-asp-net-core/)
 [Use Aspire to implement and deploy the BFF security architecture](https://damienbod.com/2026/08/17/use-aspire-to-implement-and-deploy-the-bff-security-architecture/)
 
-
 ## Features
 - Using OpenID Connect with client assertions (private key JWT)
 - Using OAuth DPoP (Demonstrating Proof of Possession) for enhanced security
@@ -29,9 +28,12 @@
 - Confidential client with client assertion and private key JWT
 - Using YARP Reverse Proxy to forward requests to the API
 
-- TODO Implement production YARP for proxied requests to the API with DPoP and PAR
+- Implement production YARP for proxied requests to the API with DPoP and PAR
 - TODO Debug if User info endpoint is working with private key JWT, DPoP and PAR
 - TODO Support mixed APIs
+
+## History
+- 2026-08-10: Initial version of the BFF with Auth0, Angular and ASP.NET Core
 
 ## Podman
 
