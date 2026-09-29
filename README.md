@@ -17,7 +17,6 @@
 - NOTE: use user secrets to load the certificate in the BFF server project, do not push in repo.
 
 ## Blogs
-
 [Implement BFF using Auth0, Angular and ASP.NET Core](https://damienbod.com/2026/08/10/implement-bff-using-auth0-angular-and-asp-net-core/)
 [Use Aspire to implement and deploy the BFF security architecture](https://damienbod.com/2026/08/17/use-aspire-to-implement-and-deploy-the-bff-security-architecture/)
 
@@ -33,7 +32,7 @@
 - TODO Support mixed APIs
 
 ## History
-- 2026-08-10: Initial version of the BFF with Auth0, Angular and ASP.NET Core
+- 2026-09-29: Initial version of the BFF with Auth0, Angular and ASP.NET Core
 
 ## Podman
 
