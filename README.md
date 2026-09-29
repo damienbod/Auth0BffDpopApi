@@ -32,7 +32,7 @@
 - TODO Support mixed APIs
 
 ## History
-- 2026-09-29: Initial version of the BFF with Auth0, Angular and ASP.NET Core
+- 2026-09-29: Updated version of the BFF with Auth0, Angular and ASP.NET Core
 
 ## Podman
 
