@@ -8,7 +8,6 @@ namespace WebApi.Controllers;
 [Route("api/[controller]")]
 public class DownstreamYarpDataController(ILogger<DownstreamYarpDataController> _logger) : ControllerBase
 {
-    [AllowAnonymous]
     [EndpointSummary("This is a summary from OpenApi attributes.")]
     [EndpointDescription("This is a description from OpenApi attributes.")]
     [Produces(typeof(DataFromApi))]
