@@ -36,7 +36,7 @@
 - 2026-11-15 Updated .NET 11
 - 2026-10-26 Updated packages
 - 2026-10-13 Updated packages
-- 2026-09-29: Updated version of the BFF with Auth0, Angular and ASP.NET Core
+- 2026-09-29 Updated version of the BFF with Auth0, Angular and ASP.NET Core
 
 ## Podman
 
