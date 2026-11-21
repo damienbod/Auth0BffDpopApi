@@ -32,6 +32,7 @@
 - TODO Support mixed APIs
 
 ## History
+- 2026-11-21 Aspire 17.0.0
 - 2026-11-15 Updated .NET 11
 - 2026-10-26 Updated packages
 - 2026-10-13 Updated packages
